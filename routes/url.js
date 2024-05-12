@@ -4,7 +4,17 @@ const URL = require("../models/url");
 
 const router = express.Router();
 
+// router.get("/test",async (req, res) => {
+//   const allURLs = await URL.find({});
+//   console.log("URL is",allURLs);
+//   return res.render("home", {
+//     urls: allURLs,
+//     name:"Aayushmaan",
+//   });
+// });
+
 router.post("/", handleGenerateNewShortURL);
+
 router.get("/:id", async (req, res) => {
   const shortid = req.params.id;
   const entry = await URL.findOneAndUpdate(
@@ -17,6 +27,7 @@ router.get("/:id", async (req, res) => {
   );
   res.redirect(entry.redirectURL);
 });
+
 router.get("/analytics/:id", async (req, res) => {
   const shortid = req.params.id;
   const entry = await URL.findOne({ shortId: shortid });
@@ -26,10 +37,5 @@ router.get("/analytics/:id", async (req, res) => {
     analytics: entry.visitHistory,
   });
 });
-
-
-router.get('/test',(req,res)=>{
-    return res.end('hello');
-})
 
 module.exports = router;
